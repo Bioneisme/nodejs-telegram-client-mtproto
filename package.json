@@ -1,0 +1,19 @@
+{
+  "name": "tg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api.js",
+  "scripts": {
+    "start": "node api.js",
+    "dev": "nodemon api.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mtproto/core": "6.2.0",
+    "dotenv": "^16.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
