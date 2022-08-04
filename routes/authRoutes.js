@@ -10,7 +10,9 @@ router.use(function (req, res, next) {
 
 router.get('/', authController.getUser);
 
-router.get('/signin', authController.signIn);
+router.get('/signin', (req, res) => {
+    res.render('pages/signIn')
+});
 
 router.post('/signin', authController.sendCode)
 

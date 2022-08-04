@@ -13,14 +13,6 @@ class AuthController {
         }
     }
 
-    signIn(req, res, next) {
-        try {
-            res.render('pages/signIn')
-        } catch (e) {
-            next(e)
-        }
-    }
-
     logout(req, res, next) {
         try {
             authMethods.logout().then(() => {
