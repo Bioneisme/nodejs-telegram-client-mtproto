@@ -6,8 +6,7 @@ class AuthMethods {
             id: {
                 _: 'inputUserSelf',
             },
-        }).catch(e => {
-            console.error(JSON.stringify(e));
+        }).catch(() => {
             return null;
         });
     };
@@ -16,9 +15,7 @@ class AuthMethods {
         return api.call('auth.logOut', {
         }).then(result => {
             return result;
-        }).catch(e => {
-            console.error(JSON.stringify(e));
-        });
+        })
     }
 
     sendCode(phone_number) {
@@ -28,7 +25,6 @@ class AuthMethods {
                 _: 'codeSettings',
             },
         }).catch(e => {
-            console.error(JSON.stringify(e));
             return {error: true, message: e.error_message};
         });
     };
@@ -39,7 +35,6 @@ class AuthMethods {
             phone_number,
             phone_code_hash,
         }).catch(e => {
-            console.error(JSON.stringify(e));
             return {error: true, message: e.error_message}
         });
     }
@@ -51,7 +46,6 @@ class AuthMethods {
             first_name,
             last_name
         }).catch(e => {
-            console.error(JSON.stringify(e));
             return {error: true, message: e.error_message}
         })
     }
@@ -69,7 +63,6 @@ class AuthMethods {
                 M1,
             },
         }).catch(e => {
-            console.error(JSON.stringify(e))
             return {error: true, message: e.error_message}
         })
     }
