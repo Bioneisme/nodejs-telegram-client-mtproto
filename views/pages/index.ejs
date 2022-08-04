@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<style>
+    .user-box {
+        box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
+        padding: 8px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .set_li {
+        list-style-type: circle;
+    }
+
+    button {
+        background-color: darkseagreen;
+        border: none;
+        color: white;
+        padding: 6px 26px;
+        text-align: center;
+        font-size: 16px;
+        margin: 0 20px;
+    }
+</style>
+<body>
+
+<%- include('../partials/header'); %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <% if (user) { %>
+                <h4 class="text-center">Current User
+                    <i style="cursor: pointer; color: cornflowerblue" class="fa fa-sign-out mx-1" aria-hidden="true"
+                       onclick="location.href='/logout'"></i>
+                </h4>
+                <div class="user-box">
+                    <ul>
+                        <li>ID: <%= user.full_user.id %></li>
+                        <li>Username: <%= user.users[0].username %></li>
+                        <li>First name: <%= user.users[0].first_name %></li>
+                        <li>Status: "<%= user.full_user.about %>"</li>
+                        <li>Phone: <%= user.users[0].phone %></li>
+                    </ul>
+                    <button onclick="show(this)">Show full details</button>
+                    <ul style="display: none">
+                        <% Object.entries(user.full_user).map( ([key, val]) => { %>
+                            <li><%= key %>: <%= val %></li>
+                            <% if (key === 'settings') {
+                            Object.entries(user.full_user.settings).map( ([key, val]) => { %>
+                                <li class="set_li"><%= key %>: <%= val %></li>
+                            <% })} %>
+
+                            <% if (key === 'notify_settings') {
+                            Object.entries(user.full_user.notify_settings).map( ([key, val]) => { %>
+                                <li class="set_li"><%= key %>: <%= val %></li>
+                            <% })} %>
+                        <% }) %>
+
+                        <% Object.entries(user.users[0]).map( ([key, val]) => { %>
+                            <li><%= key %>: <%= val %></li>
+                            <% if (key === 'photo') {
+                            Object.entries(user.users[0].photo).map( ([key, val]) => { %>
+                                <li class="set_li"><%= key %>: <%= val %></li>
+                            <% })} %>
+
+                            <% if (key === 'status') {
+                            Object.entries(user.users[0].status).map( ([key, val]) => { %>
+                                <li class="set_li"><%= key %>: <%= val %></li>
+                            <% })} %>
+                        <% }) %>
+
+                    </ul>
+                </div>
+            <% } else { %>
+                <p>You are not authorized! <a href="/signin">Sign In</a></p>
+            <% } %>
+        </div>
+    </div>
+</div>
+<script>
+    let isClicked = false
+    function show(el) {
+        if (!isClicked) {
+            const x = el.nextElementSibling;
+            x.style.display = 'block';
+            isClicked = true
+        } else {
+            const x = el.nextElementSibling;
+            x.style.display = 'none';
+            isClicked = false
+        }
+    }
+</script>
+</body>
+</html>

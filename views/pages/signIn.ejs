@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body>
+
+<%- include('../partials/header'); %>
+
+<div class="container text-center">
+    <h1>Sign In</h1>
+    <hr>
+    <div class="row">
+        <% if (error) { %>
+            <p style="color: red"><%= error %></p>
+        <% } %>
+            <% if (!phone) { %>
+            <form style="margin: 0 auto; width: 30%" method="post" action="/signin">
+                Phone Number
+                <input type="tel" name="phone" placeholder="+77777777777" class="form-control" required>
+                <br>
+                <input type="submit" class="btn btn-outline-info" style="width: 200px" value="Continue">
+            </form>
+        <% } else { %>
+                <form style="margin: 0 auto; width: 30%" method="post" action="/login">
+                    Phone Number
+                    <input type="tel" name="phone" class="form-control" value="<%= phone %>" required>
+
+                    Code
+                    <input type="number" name="code" class="form-control" placeholder="123456" required>
+
+                    2FA Session Password (If available)
+                    <input type="number" name="password" class="form-control" placeholder="123456">
+                    <br>
+                    <input type="submit" class="btn btn-outline-info" style="width: 200px" value="Log In">
+                </form>
+        <% } %>
+    </div>
+</div>
+
+</body>
+</html>
