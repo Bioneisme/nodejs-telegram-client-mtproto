@@ -6,13 +6,20 @@ class AuthMethods {
             id: {
                 _: 'inputUserSelf',
             },
-        }).then(result => {
-            return result;
         }).catch(e => {
             console.error(JSON.stringify(e));
             return null;
         });
     };
+
+    logout() {
+        return api.call('auth.logOut', {
+        }).then(result => {
+            return result;
+        }).catch(e => {
+            console.error(JSON.stringify(e));
+        });
+    }
 
     sendCode(phone_number) {
         return api.call('auth.sendCode', {
@@ -20,35 +27,32 @@ class AuthMethods {
             settings: {
                 _: 'codeSettings',
             },
-        }).then(result => {
-            return result;
         }).catch(e => {
             console.error(JSON.stringify(e));
+            return {error: true, message: e.error_message};
         });
     };
 
-    signIn({phone_code, phone_number, phone_code_hash}) {
+    signIn(phone_code, phone_number, phone_code_hash) {
         return api.call('auth.signIn', {
             phone_code,
             phone_number,
             phone_code_hash,
-        }).then(result => {
-            return result;
         }).catch(e => {
             console.error(JSON.stringify(e));
+            return {error: true, message: e.error_message}
         });
     }
 
-    signUp({phone, phone_code_hash}) {
+    signUp(phone_number, phone_code_hash, first_name, last_name) {
         return api.call('auth.signUp', {
-            phone_number: phone,
-            phone_code_hash: phone_code_hash,
-            first_name: 'MTProto',
-            last_name: 'Core',
-        }).then(result => {
-            return result;
+            phone_number,
+            phone_code_hash,
+            first_name,
+            last_name
         }).catch(e => {
             console.error(JSON.stringify(e));
+            return {error: true, message: e.error_message}
         })
     }
 
@@ -56,7 +60,7 @@ class AuthMethods {
         return api.call('account.getPassword');
     }
 
-    checkPassword({srp_id, A, M1}) {
+    checkPassword(srp_id, A, M1) {
         return api.call('auth.checkPassword', {
             password: {
                 _: 'inputCheckPasswordSRP',
@@ -64,7 +68,10 @@ class AuthMethods {
                 A,
                 M1,
             },
-        });
+        }).catch(e => {
+            console.error(JSON.stringify(e))
+            return {error: true, message: e.error_message}
+        })
     }
 }
 
