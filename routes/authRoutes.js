@@ -5,6 +5,9 @@ router.use(function (req, res, next) {
     res.locals.user = null;
     res.locals.error = null;
     res.locals.phone = null;
+    res.locals.users = null;
+    res.locals.channels = null;
+    res.locals.chats = null;
     next();
 });
 

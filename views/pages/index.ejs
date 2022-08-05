@@ -4,7 +4,7 @@
     <%- include('../partials/head'); %>
 </head>
 <style>
-    .user-box {
+    .shadow-box {
         box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px 0;
         padding: 8px;
     }
@@ -33,13 +33,13 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-3">
-            <% if (user) { %>
+        <% if (user) { %>
+            <div class="col-2">
                 <h4 class="text-center">Current User
                     <i style="cursor: pointer; color: cornflowerblue" class="fa fa-sign-out mx-1" aria-hidden="true"
                        onclick="location.href='/logout'"></i>
                 </h4>
-                <div class="user-box">
+                <div class="shadow-box">
                     <ul>
                         <li>ID: <%= user.full_user.id %></li>
                         <li>Username: <%= user.users[0].username %></li>
@@ -77,23 +77,68 @@
 
                     </ul>
                 </div>
-            <% } else { %>
-                <p>You are not authorized! <a href="/signin">Sign In</a></p>
-            <% } %>
-        </div>
+            </div>
+
+            <div class="col-2">
+                <h4 class="text-center">Dialogs</h4>
+                <div class="shadow-box">
+                    <button onclick="show(this)">Show full details</button>
+                    <div style="display: none">
+                        <% if (users) { %>
+                            <% users.forEach(user => { %>
+                                <div class="border"><%= user.id %> | <%= user.first_name %>
+                                    <% if (user.username) { %>
+                                        <br>
+                                        <a target="_blank"
+                                           href="https://t.me/<%= user.username %>">@<%= user.username %></a>
+                                    <% } %>
+                                </div>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <h4 class="text-center">Chats</h4>
+                <div class="shadow-box">
+                    <button onclick="show(this)">Show full details</button>
+                    <div style="display: none">
+                        <% if (chats) { %>
+                            <% chats.forEach(chat => { %>
+                                <div class="border"><%= chat.id %> | <%= chat.title %></div>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2">
+                <h4 class="text-center">Channels</h4>
+                <div class="shadow-box">
+                    <button onclick="show(this)">Show full details</button>
+                    <div style="display: none">
+                        <% if (channels) { %>
+                            <% channels.forEach(channel => { %>
+                                <div class="border"><%= channel.id %> | <%= channel.title %></div>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <p>You are not authorized! <a href="/signin">Sign In</a></p>
+        <% } %>
     </div>
 </div>
 <script>
-    let isClicked = false
     function show(el) {
-        if (!isClicked) {
-            const x = el.nextElementSibling;
+        const x = el.nextElementSibling;
+        if (x.style.display === 'none') {
             x.style.display = 'block';
-            isClicked = true
         } else {
             const x = el.nextElementSibling;
             x.style.display = 'none';
-            isClicked = false
         }
     }
 </script>

@@ -1,13 +1,35 @@
 const localStorage = require('localStorage')
 const api = require('../api')
 const authMethods = require('../methods/authMethods')
-const auth = require("../methods/authMethods");
+const msgMethods = require("../methods/msgMethods");
 
 class AuthController {
     async getUser(req, res, next) {
         try {
             const user = await authMethods.getUser()
-            res.render('pages/index', {user: user})
+
+            let userDialogs = []
+            let channels = []
+            let chats = []
+
+            const Dialogs = await msgMethods.getDialogs()
+            Dialogs.users.forEach(dialog => {
+                userDialogs.push({id: dialog.id, username: dialog.username, first_name: dialog.first_name})
+            })
+            Dialogs.chats.forEach(channel => {
+                channels.push({id: channel.id, title: channel.title})
+            })
+
+            const Chats = await msgMethods.getAllChats()
+            if (Chats.error) {
+                chats.push({title: Chats.message})
+            } else {
+                Chats.chats.forEach(chat => {
+                    chats.push({id: chat.id, title: chat.title})
+                })
+            }
+
+            res.render('pages/index', {user: user, users: userDialogs, channels: channels, chats: chats})
         } catch (e) {
             next(e)
         }
@@ -47,7 +69,7 @@ class AuthController {
             const signInResult = await authMethods.signIn(code, phone, phone_code_hash);
 
             if (signInResult.message === 'SESSION_PASSWORD_NEEDED') {
-                const {srp_id, current_algo, srp_B} = await auth.getPassword();
+                const {srp_id, current_algo, srp_B} = await authMethods.getPassword();
                 const {g, p, salt1, salt2} = current_algo;
                 const {A, M1} = await api.mtproto.crypto.getSRPParams({
                     g,
@@ -58,7 +80,7 @@ class AuthController {
                     password
                 });
 
-                const checkPasswordResult = await auth.checkPassword(srp_id, A, M1);
+                const checkPasswordResult = await authMethods.checkPassword(srp_id, A, M1);
                 if (checkPasswordResult.error)
                     return res.render('pages/signIn', {error: checkPasswordResult.message})
                 return res.redirect('/')
