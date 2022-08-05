@@ -9,13 +9,13 @@ class AuthMethods {
         }).catch(() => {
             return null;
         });
-    };
+    }
 
     logout() {
         return api.call('auth.logOut', {
         }).then(result => {
             return result;
-        })
+        });
     }
 
     sendCode(phone_number) {
@@ -27,7 +27,7 @@ class AuthMethods {
         }).catch(e => {
             return {error: true, message: e.error_message};
         });
-    };
+    }
 
     signIn(phone_code, phone_number, phone_code_hash) {
         return api.call('auth.signIn', {
@@ -47,7 +47,7 @@ class AuthMethods {
             last_name
         }).catch(e => {
             return {error: true, message: e.error_message}
-        })
+        });
     }
 
     getPassword() {
@@ -64,8 +64,8 @@ class AuthMethods {
             },
         }).catch(e => {
             return {error: true, message: e.error_message}
-        })
+        });
     }
 }
 
-module.exports = new AuthMethods()
+module.exports = new AuthMethods();

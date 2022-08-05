@@ -8,7 +8,7 @@ class msgMethods {
             peer: {
                 _: 'inputPeerUser',
                 user_id,
-                access_hash: '0'
+                access_hash: 0
             },
             message,
             random_id: getRandomInt(1000000)
@@ -16,7 +16,7 @@ class msgMethods {
 
         return api.call('messages.sendMessage', params, {})
         .catch(e => {
-            console.error(JSON.stringify(e));
+            return {error: true, message: e.error_message}
         });
     };
 
