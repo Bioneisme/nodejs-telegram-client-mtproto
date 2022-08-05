@@ -26,6 +26,11 @@
         font-size: 16px;
         margin: 0 20px;
     }
+
+    .functional-button {
+        background-color: dodgerblue;
+        border-radius: 6px
+    }
 </style>
 <body>
 
@@ -126,21 +131,70 @@
                     </div>
                 </div>
             </div>
-        <% } else { %>
-            <p>You are not authorized! <a href="/signin">Sign In</a></p>
-        <% } %>
+
+        <div class="col">
+            <h4 class="text-center">
+                Messages
+            </h4>
+            <div class="shadow-box">
+                <div class="text-center">
+                    <button class="functional-button" data-bs-toggle="modal" data-bs-target="#msguser">
+                        Send message to User
+                    </button> <br><br>
+                    <button class="functional-button" data-bs-toggle="modal" data-bs-target="#msgchat">
+                        Send message to Chat
+                    </button>
+                </div>
+            </div>
+
+            <% } else { %>
+                <% if (error) { %>
+                    <span class="color-red">
+                    <%= error %>
+                </span>
+                <% } else { %>
+                    <p>You are not authorized! <a href="/signin">Sign In</a></p>
+                <% } %>
+            <% } %>
+        </div>
     </div>
-</div>
-<script>
-    function show(el) {
-        const x = el.nextElementSibling;
-        if (x.style.display === 'none') {
-            x.style.display = 'block';
-        } else {
+
+    <div class="modal fade" id="msguser" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Message to User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/sendMessageToUser" method="post">
+                    <div class="modal-body">
+                        User ID
+                        <input type="number" name="user_id" class="form-control" required>
+                        Message
+                        <textarea name="message" class="form-control" required></textarea>
+                        Count
+                        <input type="number" name="count" class="form-control" value="1" required>
+                        Interval
+                        <input type="number" name="interval" class="form-control" value="100" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function show(el) {
             const x = el.nextElementSibling;
-            x.style.display = 'none';
+            if (x.style.display === 'none') {
+                x.style.display = 'block';
+            } else {
+                const x = el.nextElementSibling;
+                x.style.display = 'none';
+            }
         }
-    }
-</script>
+    </script>
 </body>
 </html>
