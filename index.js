@@ -1,6 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const authRoutes = require('./routes/authRoutes')
+
+const authRoutes = require('./routes/authRoutes');
+const msgRoutes = require('./routes/msgRoutes')
+
 require('dotenv').config()
 
 const PORT = process.env.PORT || 5000;
@@ -16,5 +19,6 @@ const start = () => {
 }
 
 app.use(authRoutes);
+app.use(msgRoutes);
 
 start()
