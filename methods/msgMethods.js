@@ -43,6 +43,32 @@ class msgMethods {
             return {error: true, message: e.error_message}
         })
     }
+
+    getHistory(user_id) {
+        return api.call('messages.getHistory', {
+            offset_date: 0,
+            offset_id: -1,
+            peer: {
+                _: 'inputPeerUser',
+                user_id
+            }
+        }).catch(e => {
+            return {error: true, message: e.error_message}
+        })
+    }
+
+    sendReaction(user_id, msg_id, reaction) {
+        return api.call('messages.sendReaction', {
+            peer: {
+                _: 'inputPeerUser',
+                user_id
+            },
+            msg_id,
+            reaction
+        }).catch(e => {
+            return {error: true, message: e.error_message}
+        })
+    }
 }
 
 module.exports = new msgMethods();
