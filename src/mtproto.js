@@ -5,11 +5,11 @@ require('dotenv').config();
 class API {
     constructor() {
         this.mtproto = new MTProto({
-            api_id: process.env.api_id,
-            api_hash: process.env.api_hash,
+            api_id: 11855623,
+            api_hash: 'aa993702776c355db46ff5f72d11c3f2',
 
             storageOptions: {
-                path: path.resolve(__dirname, './data/1.json'),
+                path: path.resolve(__dirname, './data/storage.json'),
             }
         });
     }

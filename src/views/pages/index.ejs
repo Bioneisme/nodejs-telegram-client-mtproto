@@ -174,7 +174,7 @@
                         <textarea name="message" class="form-control" required></textarea>
                         Count
                         <input type="number" name="count" class="form-control" value="1" required>
-                        Interval
+                        Interval (ms)
                         <input type="number" name="interval" class="form-control" value="100" required>
                     </div>
                     <div class="modal-footer">
@@ -184,6 +184,33 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="msgchat" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Message to User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/sendMessageToChat" method="post">
+                    <div class="modal-body">
+                        Chat ID
+                        <input type="number" name="chat_id" class="form-control" required>
+                        Message
+                        <textarea name="message" class="form-control" required></textarea>
+                        Count
+                        <input type="number" name="count" class="form-control" value="1" required>
+                        Interval (ms)
+                        <input type="number" name="interval" class="form-control" value="100" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         function show(el) {

@@ -1,4 +1,5 @@
-const api = require('../api')
+// @ts-ignore
+import api from "../mtproto";
 
 class AuthMethods {
     getUser() {
@@ -6,55 +7,55 @@ class AuthMethods {
             id: {
                 _: 'inputUserSelf',
             },
-        }).catch(() => {
-            return null;
+        }).catch((e: { error_message: string; }) => {
+            return {error: true, message: e.error_message};
         });
-    }
+    };
 
     logout() {
         return api.call('auth.logOut', {
-        }).then(result => {
+        }).then((result: string) => {
             return result;
         });
-    }
+    };
 
-    sendCode(phone_number) {
+    sendCode(phone_number: string) {
         return api.call('auth.sendCode', {
             phone_number,
             settings: {
                 _: 'codeSettings',
             },
-        }).catch(e => {
+        }).catch((e: { error_message: string; }) => {
             return {error: true, message: e.error_message};
         });
-    }
+    };
 
-    signIn(phone_code, phone_number, phone_code_hash) {
+    signIn(phone_code: number, phone_number: string, phone_code_hash: string | null) {
         return api.call('auth.signIn', {
             phone_code,
             phone_number,
             phone_code_hash,
-        }).catch(e => {
+        }).catch((e: { error_message: string; }) => {
             return {error: true, message: e.error_message}
         });
-    }
+    };
 
-    signUp(phone_number, phone_code_hash, first_name, last_name) {
+    signUp(phone_number: string, phone_code_hash: string, first_name: string, last_name: string) {
         return api.call('auth.signUp', {
             phone_number,
             phone_code_hash,
             first_name,
             last_name
-        }).catch(e => {
+        }).catch((e: { error_message: string; }) => {
             return {error: true, message: e.error_message}
         });
-    }
+    };
 
     getPassword() {
-        return api.call('account.getPassword');
+        return api.call('account.getPassword', {});
     }
 
-    checkPassword(srp_id, A, M1) {
+    checkPassword(srp_id: bigint, A: Uint8Array, M1: Uint8Array) {
         return api.call('auth.checkPassword', {
             password: {
                 _: 'inputCheckPasswordSRP',
@@ -62,10 +63,10 @@ class AuthMethods {
                 A,
                 M1,
             },
-        }).catch(e => {
+        }).catch((e: { error_message: string; }) => {
             return {error: true, message: e.error_message}
         });
     }
 }
 
-module.exports = new AuthMethods();
+export default new AuthMethods();

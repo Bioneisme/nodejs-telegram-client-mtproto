@@ -1,6 +1,8 @@
 import http from "http";
 import bodyParser from 'body-parser';
 import express from 'express';
+import authRoute from "./routes/authRoute";
+import msgRoute from "./routes/msgRoute";
 import logging from "./config/logging";
 import settings from "./config/settings";
 
@@ -21,6 +23,11 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.set('view engine', 'ejs');
+
+app.use(authRoute);
+app.use(msgRoute);
+
 /** Error handling */
 app.use((req, res) => {
     const error = new Error('Not found');
@@ -29,6 +36,7 @@ app.use((req, res) => {
         message: error.message
     });
 });
+
 
 const httpServer = http.createServer(app);
 

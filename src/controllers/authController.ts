@@ -1,22 +1,31 @@
-const localStorage = require('localStorage')
-const api = require('../api')
-const authMethods = require('../methods/authMethods')
-const msgMethods = require("../methods/msgMethods");
+// @ts-ignore
+import api from "../mtproto";
+// @ts-ignore
+import localStorage from "localStorage";
+import { NextFunction, Request, Response } from 'express';
+
+import authMethods from "../methods/authMethods";
+import msgMethods from "../methods/msgMethods";
 
 class AuthController {
-    async getUser(req, res, next) {
+    async getUser(req: Request, res: Response, next: NextFunction) {
         try {
             const user = await authMethods.getUser()
 
-            let userDialogs = []
-            let channels = []
+            if (user.error) {
+                return res.render('pages/index')
+            }
+
+            let userDialogs: { id: number; username: string; first_name: string; }[] = [];
+            let channels: { id: number; title: string; }[] = [];
             let chats = []
 
             const Dialogs = await msgMethods.getDialogs()
-            Dialogs.users.forEach(dialog => {
+
+            Dialogs.users.forEach((dialog: { id: number; username: string; first_name: string; }) => {
                 userDialogs.push({id: dialog.id, username: dialog.username, first_name: dialog.first_name})
             })
-            Dialogs.chats.forEach(channel => {
+            Dialogs.chats.forEach((channel: { id: number; title: string; }) => {
                 channels.push({id: channel.id, title: channel.title})
             })
 
@@ -24,7 +33,7 @@ class AuthController {
             if (Chats.error) {
                 chats.push({title: Chats.message})
             } else {
-                Chats.chats.forEach(chat => {
+                Chats.chats.forEach((chat: { id: number; title: string; }) => {
                     chats.push({id: chat.id, title: chat.title})
                 })
             }
@@ -35,7 +44,7 @@ class AuthController {
         }
     }
 
-    logout(req, res, next) {
+    logout(req: Request, res: Response, next: NextFunction) {
         try {
             authMethods.logout().then(() => {
                 return res.redirect('/')
@@ -45,7 +54,7 @@ class AuthController {
         }
     }
 
-    async sendCode(req, res, next) {
+    async sendCode(req: Request, res: Response, next: NextFunction) {
         try {
             const {phone} = req.body
             const code = await authMethods.sendCode(phone)
@@ -61,7 +70,7 @@ class AuthController {
         }
     }
 
-    async login(req, res, next) {
+    async login(req: Request, res: Response, next: NextFunction) {
         try {
             const {phone, code, password} = req.body
             const phone_code_hash = localStorage.getItem('phone_code_hash')
@@ -95,4 +104,5 @@ class AuthController {
     }
 }
 
-module.exports = new AuthController()
+
+export default new AuthController();
