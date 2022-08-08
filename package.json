@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "start": "node src/server.ts",
-    "dev": "nodemon src/server.ts",
+    "start": "tsc && node src/server.js",
+    "clean": "tsc --build --clean",
     "build": "rm -rf build && prettier --write src/ && tsc"
   },
   "author": "",
@@ -17,7 +17,9 @@
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
-    "localStorage": "^1.0.4"
+    "ioredis": "^5.2.2",
+    "localStorage": "^1.0.4",
+    "mtproto-shared": "^0.1.8"
   },
   "devDependencies": {
     "@types/body-parser": "^1.19.2",
