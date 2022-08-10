@@ -4,7 +4,7 @@ import express from 'express';
 import authRoute from "./routes/authRoute";
 import msgRoute from "./routes/msgRoute";
 import logging from "./config/logging";
-import settings from "./config/settings";
+import {SERVER} from "./config/settings";
 
 const NAMESPACE = "Server";
 const app = express();
@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
+app.set('views','./src/views');
 
 app.use(authRoute);
 app.use(msgRoute);
@@ -40,4 +41,4 @@ app.use((req, res) => {
 
 const httpServer = http.createServer(app);
 
-httpServer.listen(settings.server.port, () => logging.info(NAMESPACE, `Server is running http://${settings.server.hostname}:${settings.server.port}`));
+httpServer.listen(SERVER.port, () => logging.info(NAMESPACE, `Server is running http://${SERVER.hostname}:${SERVER.port}`));

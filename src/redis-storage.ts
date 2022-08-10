@@ -39,5 +39,3 @@ export class RedisStorage implements AsyncStorage {
 }
 
 export {RedisStorage as Storage}
-
-export default RedisStorage
