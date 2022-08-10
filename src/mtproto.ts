@@ -14,7 +14,7 @@ const redisOptions = {
 const storage = new Storage(REDIS.hash, redisOptions);
 
 class API {
-    private mtProto: any;
+    mtProto: any;
     constructor() {
         // @ts-ignore
         this.mtProto = new MTProto({
@@ -53,4 +53,4 @@ class API {
     }
 }
 
-module.exports = new API();
+export default new API();
