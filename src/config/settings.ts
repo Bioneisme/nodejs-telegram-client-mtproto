@@ -9,21 +9,19 @@ const REDIS_PORT = +(process.env.REDIS_PORT || 13098);
 const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
 const HASH = process.env.HASH
 
-const SERVER = {
+export const SERVER = {
     hostname: SERVER_HOSTNAME,
     port: SERVER_PORT
 };
 
-const REDIS = {
+export const REDIS = {
     host: REDIS_HOST,
     port: REDIS_PORT,
     password: REDIS_PASSWORD,
     hash: HASH
 };
 
-const config = {
+export const config = {
     server: SERVER,
     redis: REDIS
 };
-
-export default config;
