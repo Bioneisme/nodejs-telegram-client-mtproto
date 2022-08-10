@@ -7,7 +7,7 @@ const SERVER_PORT = process.env.SERVER_PORT || 5000;
 const REDIS_HOST = process.env.REDIS_HOST;
 const REDIS_PORT = +(process.env.REDIS_PORT || 13098);
 const REDIS_PASSWORD = process.env.REDIS_PASSWORD;
-const HASH = process.env.HASH
+const HASH = process.env.HASH || '';
 
 export const SERVER = {
     hostname: SERVER_HOSTNAME,
