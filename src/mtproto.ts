@@ -1,25 +1,39 @@
-const path = require('path');
-const MTProto = require('@mtproto/core');
+// @ts-ignore
+import MTProto from "@mtproto/core";
+import {Storage} from "./redis-storage";
+import {REDIS} from "./config/settings";
+
 require('dotenv').config();
 
+const redisOptions = {
+    host: REDIS.host,
+    port: REDIS.port,
+    password: REDIS.password
+};
+
+const storage = new Storage(REDIS.hash, redisOptions);
+
 class API {
+    private mtProto: any;
     constructor() {
-        this.mtproto = new MTProto({
-            api_id: 11855623,
-            api_hash: 'aa993702776c355db46ff5f72d11c3f2',
+        // @ts-ignore
+        this.mtProto = new MTProto({
+            api_id: process.env.api_id,
+            api_hash: process.env.api_hash,
 
             storageOptions: {
-                path: path.resolve(__dirname, './data/storage.json'),
+                instance: storage
             }
         });
     }
 
-    async call(method, params, options = {}) {
+    async call(method: any, params: any, options = {}): Promise<any> {
         try {
-            return await this.mtproto.call(method, params, options);
+            return await this.mtProto.call(method, params, options);
         } catch (error) {
             console.log(`${method} error:`, error);
 
+            // @ts-ignore
             const {error_code, error_message} = error;
 
             if (error_code === 303) {
@@ -28,7 +42,7 @@ class API {
                 const dcId = Number(dcIdAsString);
 
                 if (type === 'PHONE') {
-                    await this.mtproto.setDefaultDc(dcId);
+                    await this.mtProto.setDefaultDc(dcId);
                 } else {
                     Object.assign(options, {dcId});
                 }
