@@ -22,6 +22,20 @@ class MsgController {
         }
     };
 
+    async sendMessageToPhone(req: Request, res: Response, next: NextFunction) {
+        try {
+            const {phone, message} = req.body;
+                const result = await msgMethods.sendMessageToPhone(phone, message);
+                if (result.error) {
+                    return res.render('pages/index', {error: result.message});
+                }
+
+                return res.send(result);
+        } catch (e) {
+            next(e)
+        }
+    };
+
     async sendMessageToChat(req: Request, res: Response, next: NextFunction) {
         try {
             const {chat_id, message, count, interval} = req.body;

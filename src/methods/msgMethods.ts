@@ -21,6 +21,30 @@ class msgMethods {
             });
     };
 
+    async sendMessageToPhone(phone: number, message: string) {
+        const params = {
+            contacts: [{
+                _: 'inputPhoneContact',
+                client_id: 0,
+                phone: phone,
+                first_name: phone.toString(),
+            }],
+        };
+
+        const {users} = await api.call('contacts.importContacts', params, {})
+            .catch((e: { error_message: string; }) => {
+                return {error: true, message: e.error_message}
+            });
+
+        const user = users[0];
+
+        if (user?.error) {
+            throw new Error(user.message);
+        }
+
+        return this.sendMessageToUser(user.id, message);
+    };
+
     sendMessageToChat(chat_id: number, message: string) {
         const params = {
             peer: {

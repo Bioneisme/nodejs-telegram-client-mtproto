@@ -80,7 +80,7 @@ class AuthController {
             if (signInResult.message === 'SESSION_PASSWORD_NEEDED') {
                 const {srp_id, current_algo, srp_B} = await authMethods.getPassword();
                 const {g, p, salt1, salt2} = current_algo;
-                const {A, M1} = await api.mtproto.crypto.getSRPParams({
+                const {A, M1} = await api.mtProto.crypto.getSRPParams({
                     g,
                     p,
                     salt1,
